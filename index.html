@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Swasthya Sahayak - Panic-Proof AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --primary-color: #10b981;
+            --danger-color: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-color) 0%, #000000 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: absolute;
+            top: 20px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #34d399, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Center Orb / Mic */
+        .orb-container {
+            position: relative;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .orb {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--surface-color), #0f172a);
+            box-shadow: 
+                0 0 40px rgba(16, 185, 129, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .orb:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.4);
+        }
+
+        .orb.listening {
+            animation: breathe 2s infinite ease-in-out;
+            background: linear-gradient(145deg, #10b981, #047857);
+            box-shadow: 0 0 80px rgba(16, 185, 129, 0.6);
+        }
+
+        .orb.emergency {
+            animation: breathe-fast 0.8s infinite ease-in-out;
+            background: linear-gradient(145deg, #ef4444, #b91c1c);
+            box-shadow: 0 0 100px rgba(239, 68, 68, 0.8);
+        }
+
+        .mic-icon {
+            width: 60px;
+            height: 60px;
+            fill: white;
+            transition: all 0.3s;
+        }
+
+        .ripple {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            top: 0; left: 0;
+            z-index: 0;
+            opacity: 0;
+        }
+
+        .orb.listening .ripple {
+            animation: ripple-out 2s infinite cubic-bezier(0.65, 0, 0.34, 1);
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes breathe-fast {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        @keyframes ripple-out {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* Transcription Box */
+        .transcript-box {
+            margin-top: 60px;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .state-label {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .message-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .msg {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slide-up 0.5s forwards ease-out;
+        }
+
+        .msg.user {
+            color: #94a3b8;
+            border-left: 3px solid #3b82f6;
+            padding-left: 15px;
+            font-style: italic;
+        }
+
+        .msg.ai {
+            color: #ffffff;
+            font-weight: 600;
+            border-left: 3px solid #10b981;
+            padding-left: 15px;
+            font-size: 1.4rem;
+        }
+
+        .msg.emergency-text {
+            border-left: 3px solid #ef4444;
+            color: #fca5a5;
+            font-weight: 800;
+        }
+
+        .translation-sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        @keyframes slide-up {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+
+        /* HUD Lines */
+        .hud-line {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            z-index: -1;
+        }
+        .v-line { width: 1px; height: 100vh; left: 50%; top: 0; }
+        .h-line { height: 1px; width: 100vw; top: 50%; left: 0; }
+        
+        .language-selector {
+            position: absolute;
+            bottom: 30px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .scenario-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .scenario-btn:hover {
+            background: rgba(16, 185, 129, 0.2);
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="hud-line v-line"></div>
+    <div class="hud-line h-line"></div>
+
+    <div class="header">
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <defs>
+                    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            Swasthya Sahayak
+        </div>
+        <div class="status-pill" id="system-status">
+            <div class="dot"></div> Core: Offline Mode Active
+        </div>
+    </div>
+
+    <!-- Main Mic Interface -->
+    <div class="orb-container">
+        <div class="orb" id="micBtn" onclick="startSimulation('snake')">
+            <svg class="mic-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            </svg>
+            <div class="ripple"></div>
+            <div class="ripple" style="animation-delay: 0.5s"></div>
+        </div>
+        <p style="margin-top: 30px; color: var(--text-muted); font-size: 0.9rem;" id="orb-hint">Tap a scenario to test the response</p>
+        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center; z-index: 20;">
+            <button class="scenario-btn" onclick="startSimulation('snake')">Snake Bite</button>
+            <button class="scenario-btn" onclick="startSimulation('heart')">Heart Attack</button>
+            <button class="scenario-btn" onclick="startSimulation('burn')">Severe Burn</button>
+        </div>
+    </div>
+
+    <!-- Transcription Area -->
+    <div class="transcript-box">
+        <div class="state-label" id="state-label">SYSTEM READY</div>
+        <div class="message-container" id="chat">
+            <div class="msg" style="color: #64748b; font-size: 1rem; text-align: center; margin-top: 40px;" id="welcome-msg">
+                On-device Medical RAG is loaded.<br>Awaiting voice input...
+            </div>
+        </div>
+    </div>
+
+    <select class="language-selector">
+        <option value="mr">Auto-Detect: Marathi</option>
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+    </select>
+
+    <script>
+        // Stop any running speech immediately on load
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
+
+        const micBtn = document.getElementById('micBtn');
+        const stateLabel = document.getElementById('state-label');
+        const chat = document.getElementById('chat');
+        const welcomeMsg = document.getElementById('welcome-msg');
+        const orbHint = document.getElementById('orb-hint');
+        const systemStatus = document.getElementById('system-status');
+
+        function appendMessage(type, text, subtext = null) {
+            const div = document.createElement('div');
+            div.className = `msg ${type}`;
+            div.innerHTML = text;
+            if (subtext) {
+                div.innerHTML += `<div class="translation-sub">${subtext}</div>`;
+            }
+            chat.appendChild(div);
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        const scenarios = {
+            'snake': {
+                userText: 'Sahayak! My brother has been bitten by a snake, he is fainting!',
+                aiText: 'Do not panic. Ambulance dispatched. Do not tie anything on the wound. Do not let him move.',
+                level: 'CRITICAL LEVEL 5',
+                color: '#ef4444',
+                isEmerg: true,
+                sysText: 'Dispatching GPS...'
+            },
+            'heart': {
+                userText: 'Sahayak! My father suddenly collapsed and is not breathing! Help!',
+                aiText: 'Emergency triggered. Place him flat on his back. Push hard and fast in the center of his chest. Do not stop until help arrives.',
+                level: 'CRITICAL LEVEL 5',
+                color: '#ef4444',
+                isEmerg: true,
+                sysText: 'Auto-dialing Ambulance...'
+            },
+            'burn': {
+                userText: 'My child spilled boiling water on their arm. It looks very red and is swelling.',
+                aiText: 'Cool the burn under gently running cool water for 20 minutes. Do not pop any blisters. Let me know if the pain worsens.',
+                level: 'URGENT LEVEL 3',
+                color: '#f59e0b',
+                isEmerg: false,
+                sysText: 'Monitoring Situation...'
+            }
+        };
+
+        async function startSimulation(type = 'snake') {
+            const sc = scenarios[type];
+
+            // Stop any currently playing audio
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+
+            // Reset
+            chat.innerHTML = '';
+            micBtn.classList.remove('emergency');
+            systemStatus.innerHTML = '<div class="dot"></div> Core: Offline Mode Active';
+            systemStatus.style.background = 'rgba(16, 185, 129, 0.2)';
+            systemStatus.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+            systemStatus.style.color = '#34d399';
+
+            micBtn.classList.add('listening');
+            stateLabel.innerText = "LISTENING... (VAD ACTIVE)";
+            orbHint.innerText = "Speak clearly into the device";
+            
+            // Step 1: User speaks (Simulation)
+            await sleep(1500);
+            micBtn.classList.remove('listening');
+            stateLabel.innerText = "TRANSCRIBING & TRANSLATING (EDGE CPU)";
+            await sleep(1000);
+            appendMessage('user', sc.userText, '[Detected: English]');
+
+            // Step 2: Processing 
+            await sleep(1500);
+            stateLabel.innerText = "RAG SEARCHING WHO PROTOCOLS...";
+            stateLabel.style.color = "#3b82f6";
+
+            // Step 3: Emergency Triggered
+            await sleep(1500);
+            stateLabel.innerText = "TRIAGE ALERT: " + sc.level;
+            stateLabel.style.color = sc.color;
+            if (sc.isEmerg) {
+                micBtn.classList.add('emergency');
+            }
+            systemStatus.innerHTML = `<div class="dot" style="background:${sc.color}; box-shadow:0 0 10px ${sc.color}"></div> ${sc.sysText}`;
+            systemStatus.style.background = `rgba(${sc.isEmerg ? '239, 68, 68' : '245, 158, 11'}, 0.2)`;
+            systemStatus.style.borderColor = `rgba(${sc.isEmerg ? '239, 68, 68' : '245, 158, 11'}, 0.3)`;
+            systemStatus.style.color = sc.color;
+            orbHint.innerText = sc.isEmerg ? "EMERGENCY MODE" : "FIRST AID MODE";
+            orbHint.style.color = sc.color;
+
+            // Step 4: AI Responds
+            await sleep(1000);
+            // reset state text color to default
+            stateLabel.style.color = "var(--text-muted)";
+            appendMessage(sc.isEmerg ? 'ai emergency-text' : 'ai', sc.aiText, '[Processed Output]');
+
+            // Play TTS
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(sc.aiText);
+                utterance.lang = "en-US"; // Target English
+                utterance.rate = 0.9; // Speak slightly slower for emergencies
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+    </script>
+</body>
+</html>

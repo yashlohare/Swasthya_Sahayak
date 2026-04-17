@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Stitch Design Tokens */
+  --bg-dark: #0e0e10;
+  --bg-deep: #000000;
+  --surface-container: #19191c;
+  --surface-container-high: #1f1f22;
+  --surface-container-highest: #252528;
+  --primary-pulse: #ff8f70;
+  --primary-pulse-glow: rgba(255, 143, 112, 0.4);
+  --error-alert: #ff6e84;
+  --error-alert-glow: rgba(255, 110, 132, 0.4);
+  --tertiary-pulse: #679cff;
+  --tertiary-pulse-glow: rgba(103, 156, 255, 0.4);
+  --text-bright: #fefbfe;
+  --text-dim: #acaaad;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  /* Force fit to screen */
+  height: 100svh; 
+  background-color: var(--bg-dark);
+  color: var(--text-bright);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none; /* Disable all gestures like double-tap to zoom */
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+h1, h2, h3, .headline {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+}
+
+/* Luminescent Glass Panels */
+.glass-panel {
+  background: rgba(25, 25, 28, 0.6);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* Animations */
+@keyframes vitalPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.05); filter: brightness(1.2); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes glowPulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}
+
+/* Hide scrollbars but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Mobile-Specific Overrides */
+@media (max-width: 600px) {
+  .glass-panel {
+    border-radius: 20px;
+  }
+}

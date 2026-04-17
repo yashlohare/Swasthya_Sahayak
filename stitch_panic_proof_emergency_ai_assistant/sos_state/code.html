@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MISSION COMMAND - RED ALERT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-dim": "#d73357",
+                    "surface-dim": "#0e0e10",
+                    "secondary-fixed-dim": "#ffb46b",
+                    "outline": "#767577",
+                    "on-primary-container": "#480d00",
+                    "inverse-on-surface": "#555557",
+                    "error-container": "#a70138",
+                    "secondary-fixed": "#ffc794",
+                    "on-primary-fixed": "#000000",
+                    "surface-tint": "#ff8f70",
+                    "surface-container-highest": "#252528",
+                    "on-surface": "#fefbfe",
+                    "secondary": "#fe9400",
+                    "surface-container-high": "#1f1f22",
+                    "on-primary": "#5c1300",
+                    "inverse-surface": "#fcf8fb",
+                    "on-surface-variant": "#acaaad",
+                    "inverse-primary": "#b22e00",
+                    "on-background": "#fefbfe",
+                    "on-secondary-fixed-variant": "#784400",
+                    "outline-variant": "#48474a",
+                    "primary": "#ff8f70",
+                    "background": "#0e0e10",
+                    "secondary-container": "#8c5000",
+                    "tertiary-fixed-dim": "#71a2ff",
+                    "surface-container-low": "#131315",
+                    "secondary-dim": "#ea8900",
+                    "on-secondary-fixed": "#502b00",
+                    "on-secondary": "#482600",
+                    "tertiary": "#679cff",
+                    "tertiary-dim": "#0070eb",
+                    "on-tertiary-fixed-variant": "#00377a",
+                    "surface-bright": "#2c2c2f",
+                    "primary-fixed-dim": "#ff5d2e",
+                    "primary-container": "#ff7852",
+                    "primary-dim": "#ff734c",
+                    "on-secondary-container": "#fff6f1",
+                    "on-primary-fixed-variant": "#581200",
+                    "on-tertiary": "#001f4a",
+                    "tertiary-container": "#007aff",
+                    "tertiary-fixed": "#89b0ff",
+                    "surface": "#0e0e10",
+                    "surface-variant": "#252528",
+                    "on-error-container": "#ffb2b9",
+                    "on-error": "#490013",
+                    "surface-container": "#19191c",
+                    "primary-fixed": "#ff7852",
+                    "surface-container-lowest": "#000000",
+                    "error": "#ff6e84",
+                    "on-tertiary-fixed": "#00173a",
+                    "on-tertiary-container": "#000000"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .vibrating-red {
+            background: radial-gradient(circle at center, #ff6e84 0%, #a70138 100%);
+        }
+        .vital-pulse-glow {
+            filter: blur(60px);
+            opacity: 0.4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-white overflow-hidden">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 w-full bg-zinc-950/80 backdrop-blur-xl shadow-[0_0_20px_rgba(255,59,48,0.2)]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500 dark:text-red-400" data-icon="emergency" style="">emergency</span>
+<h1 class="text-lg font-black tracking-widest text-red-600 dark:text-red-500 font-headline" style=""><h1 class="font-headline font-bold tracking-tight text-white text-lg cursor-text" data-stitch-added-classes="cursor-text" spellcheck="false" style="--tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(255, 255, 255); outline: none !important;">SWAYAM SAHAYAK</h1></h1>
+</div>
+<div class="font-headline font-bold tracking-tight text-white text-xl" style="">
+            00:04:12
+        </div>
+<div class="bg-gradient-to-b from-red-600/20 to-transparent h-[2px] w-full absolute bottom-0"></div>
+</header>
+<!-- Main SOS Canvas -->
+<main class="relative h-screen w-full flex flex-col items-center justify-center pt-16 pb-24 overflow-hidden">
+<!-- Background Atmospheric Pulse -->
+<div class="absolute inset-0 z-0">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-error-container/20 via-transparent to-transparent"></div>
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-error-dim vital-pulse-glow rounded-full"></div>
+<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-tertiary vital-pulse-glow rounded-full"></div>
+</div>
+<!-- SOS Content Stack -->
+<div class="relative z-10 w-full max-w-lg px-6 flex flex-col items-center text-center space-y-8">
+<!-- Urgent Message -->
+<div class="space-y-2">
+<div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-error-container/20 border border-error-dim/30 backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-xs font-bold text-error uppercase tracking-widest font-headline" style="">Live Emergency Protocol</span>
+</div>
+<h2 class="text-6xl font-black font-headline tracking-tighter text-on-background" style="">Calling 108...</h2>
+<p class="text-on-surface-variant text-lg" style="">Dispatcher is connecting to your location.</p>
+</div>
+<!-- Live Map Snippet (Glassmorphism Card) -->
+<div class="w-full aspect-[4/3] rounded-3xl overflow-hidden relative shadow-2xl group transition-transform duration-500">
+<img class="w-full h-full object-cover" data-alt="Dark aesthetic satellite map view with neon red location markers and digital grid overlays indicating real-time GPS tracking" data-location="New York City" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChk7w-pOJG_zUDL3pN-5NC3gGPwONazOc3hXy_h1NGjiEV74VN97BW2QqFgzIU1AYb8Cqwdt3t4PohMNk_O9D2blYod7zxbfc-y1QiqH5kU3oOh14S5kem4sw-9w0SkB4ghpuJOAx-ABbCbx7ruda9L23R7e4pJ3IG6gvmiEWwt8CRHnW3FDQ8Q666IYrlPgNDhp2bcY0MNIWmHVgcnPfS6WBTdz854yg6xSvGcV3emA1kyXTk4T8JAbUSUnc4aI81eODgk5VPQCE" style=""/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+<!-- Map Overlays -->
+<div class="absolute top-4 left-4 right-4 flex justify-between items-start">
+<div class="bg-surface-container-highest/80 backdrop-blur-xl px-4 py-3 rounded-2xl flex items-center gap-3">
+<div class="p-2 bg-error rounded-lg">
+<span class="material-symbols-outlined text-white text-sm" data-icon="location_on" style='font-variation-settings: "FILL" 1;'>location_on</span>
+</div>
+<div class="text-left">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter" style="">Current Location</p>
+<p class="text-sm font-bold text-white leading-tight" style="">40.7128° N, 74.0060° W</p>
+</div>
+</div>
+<div class="bg-surface-container-highest/80 backdrop-blur-xl p-3 rounded-2xl">
+<span class="material-symbols-outlined text-primary" data-icon="my_location" style="">my_location</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+<div class="flex items-center gap-2 text-white/90 font-bold text-xs uppercase tracking-widest bg-zinc-950/60 backdrop-blur-md px-4 py-2 rounded-xl" style="">
+<span class="material-symbols-outlined text-error text-base" data-icon="share_location" style="">share_location</span>
+                        Current Location Sharing Active
+                    </div>
+</div>
+</div>
+<!-- Urgent Call Action -->
+<div class="w-full space-y-6">
+<button class="w-full group relative overflow-hidden bg-gradient-to-br from-error-dim to-error-container text-white py-6 rounded-[2rem] shadow-[0_20px_50px_rgba(167,1,56,0.4)] transition-all active:scale-95 duration-100 flex items-center justify-center gap-4" style="">
+<span class="material-symbols-outlined text-4xl" data-icon="call_end" style='font-variation-settings: "FILL" 1;'>call_end</span>
+<span class="text-2xl font-black font-headline tracking-widest" style="">END CALL</span>
+</button>
+<div class="flex justify-center gap-4">
+<button class="bg-surface-container-high/50 backdrop-blur-xl hover:bg-surface-container-highest border border-outline-variant/20 p-5 rounded-2xl text-on-surface transition-colors" style="">
+<span class="material-symbols-outlined text-2xl" data-icon="mic_off" style="">mic_off</span>
+</button>
+<button class="bg-surface-container-high/50 backdrop-blur-xl hover:bg-surface-container-highest border border-outline-variant/20 p-5 rounded-2xl text-on-surface transition-colors" style="">
+<span class="material-symbols-outlined text-2xl" data-icon="videocam" style="">videocam</span>
+</button>
+<button class="bg-surface-container-high/50 backdrop-blur-xl hover:bg-surface-container-highest border border-outline-variant/20 p-5 rounded-2xl text-on-surface transition-colors" style="">
+<span class="material-symbols-outlined text-2xl" data-icon="medical_services" style="">medical_services</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Status Bar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-center items-stretch px-4 pb-4 bg-zinc-950/90 backdrop-blur-2xl h-24 shadow-[0_-10px_40px_rgba(255,59,48,0.15)] gap-2">
+<div class="flex flex-col items-center justify-center bg-zinc-900/50 rounded-xl py-3 px-4 flex-1">
+<span class="material-symbols-outlined text-zinc-400" data-icon="check_circle" style="">check_circle</span>
+<span class="font-['Manrope'] font-extrabold uppercase tracking-[0.1em] text-xs text-zinc-400" style="">DONE</span>
+</div>
+<!-- Active Status Tab -->
+<div class="flex flex-col items-center justify-center bg-gradient-to-br from-red-500 to-red-700 text-white rounded-xl py-3 px-4 flex-1 shadow-lg shadow-red-500/20">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+<span class="material-symbols-outlined" data-icon="sensors" style="">sensors</span>
+</div>
+<span class="font-['Manrope'] font-extrabold uppercase tracking-[0.1em] text-xs" style="">Sending Signal...</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 bg-zinc-900/50 rounded-xl py-3 px-4 flex-1">
+<span class="material-symbols-outlined" data-icon="emergency_share" style="">emergency_share</span>
+<span class="font-['Manrope'] font-extrabold uppercase tracking-[0.1em] text-xs text-zinc-400" style="">CALL 108</span>
+</div>
+</footer>
+</body></html>

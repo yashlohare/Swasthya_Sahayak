@@ -1,0 +1,26 @@
+node_modules/
+.DS_Store
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.gemini/
+__pycache__/
+*.pyc
+venv/
+env/
+knowledge_base.json
+pdf\ for\ llm/
+scratch/
+systematic_testing_report.md
+task.md
+implementation_plan.md
+walkthrough.md
+test_api_full.py
+test_queries.py
+analyze_pdfs.py
+extract_knowledge.py
