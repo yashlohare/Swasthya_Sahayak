@@ -195,8 +195,10 @@ Use Cases
 
 * Integration with emergency services (e.g., 108)
 * GPS-based hospital recommendations
+* Severity Scoring System
 * Vision-based injury detection (CV models)
 * Fine-tuned domain-specific medical LLM
+
 
 ---
 
