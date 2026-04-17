@@ -23,3 +23,4 @@ test_api_full.py
 test_queries.py
 analyze_pdfs.py
 extract_knowledge.py
+.vercel
