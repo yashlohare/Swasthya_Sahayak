@@ -4,6 +4,12 @@ from pydantic import BaseModel
 import requests
 import json
 import os
+import sys
+import io
+
+# Ensure UTF-8 output on Windows to prevent UnicodeEncodeError
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 app = FastAPI(title="Swasthya Sahayak Edge AI")
 
@@ -46,7 +52,7 @@ vector_db = {
         "level": "CRITICAL LEVEL 5", "color": "#ef4444", "isEmerg": True, "sysText": "Dispatching GPS...", "visual": "/img/snake.png"
     },
     "burn": {
-        "keywords": ["burn", "fire", "scald", "जलना", "भाजणे", "தீக்காயம்", "కాలిన"],
+        "keywords": ["burn", "fire", "scald", "जलना", "भाजणे", "தீக்காயம்", "కాలిన", "కాలుట"],
         "protocols": {
             "English": "1. Cool the burn immediately under running cool water for 20 minutes. 2. Do not use ice, butter, or toothpaste. 3. Cover loosely with clean cloth.",
             "Hindi": "1. जले हुए हिस्से पर 20 मिनट तक ठंडा पानी डालें। 2. बर्फ या टूथपेस्ट न लगाएं। 3. साफ कपड़े से ढीला ढक दें।",
@@ -110,6 +116,17 @@ vector_db = {
             "Telugu": "1. శుభ్రమైన గుడ్డతో నేరుగా, గట్టిగా ఒత్తిడిని కలిగించండి. 2. గుడ్డ పూర్తిగా తడిసిపోతే దాన్ని తొలగించవద్దు; దానిపై మరొక గుడ్డను ఉంచండి. 3. రక్తస్రావం ఎక్కువగా ఉంటే 108కి కాల్ చేయండి."
         },
         "level": "CRITICAL LEVEL 5", "color": "#ef4444", "isEmerg": True, "sysText": "Dispatching GPS...", "visual": "/img/bleeding.png"
+    },
+    "fracture": {
+        "keywords": ["fracture", "broken", "bone", "limb", "leg", "arm", "हड्डी", "पैर", "हाथ", "टूटना", "फ्रैक्चर", "मोच", "हाड", "எலும்பு முறிவு", "ముక్కలు", "ఎముక"],
+        "protocols": {
+            "English": "1. Immobilize the injured area using a splint or sling. 2. Apply ice packs to reduce swelling (not directly on skin). 3. Seek medical help immediately and do not try to realign the bone.",
+            "Hindi": "1. स्प्लिंट या स्लिंग का उपयोग करके घायल हिस्से को स्थिर करें। 2. सूजन कम करने के लिए बर्फ लगाएं (सीधे त्वचा पर नहीं)। 3. तुरंत चिकित्सा सहायता लें और हड्डी को खुद जोड़ने की कोशिश न करें।",
+            "Marathi": "1. स्प्लिंट किंवा स्लिंग वापरून जखमी भाग स्थिर करा. 2. सूज कमी करण्यासाठी बर्फ लावा (थेट त्वचेवर नाही). 3. त्वरित वैद्यकीय मदत घ्या आणि हाड स्वतः जोडण्याचा प्रयत्न करू नका.",
+            "Tamil": "1. ஒரு பிளெண்ட் அல்லது ஸ்லிங்கைப் பயன்படுத்தி காயம் அடைந்த பகுதியை அசையாமல் வைக்கவும். 2. வீக்கத்தைக் குறைக்க ஐஸ் பேக்குகளைப் பயன்படுத்துங்கள். 3. உடனடியாக மருத்துவ உதவியை நாடவும்.",
+            "Telugu": "1. స్ప్లింట్ లేదా స్లింగ్‌ని ఉపయోగించి గాయపడిన భాగాన్ని కదలకుండా ఉంచండి. 2. వాపును తగ్గించడానికి ఐస్ ప్యాక్‌లను వేయండి. 3. వెంటనే వైద్య సహాయం తీసుకోండి."
+        },
+        "level": "URGENT LEVEL 3", "color": "#f59e0b", "isEmerg": False, "sysText": "Analyzing Situation...", "visual": "/img/generic.png"
     }
 }
 
@@ -135,7 +152,8 @@ def retrieve_rag_context(query: str):
         return best_match
 
     combined_kb = "\n".join(pdf_knowledge.values()).split('\n')
-    search_terms = [w for w in query.split() if len(w) > 3 and w not in {'what', 'should', 'doing', 'where', 'when', 'how', 'someone'}]
+    search_terms = [w for w in query.split() if len(w) >= 2 and w not in {'what', 'should', 'doing', 'where', 'when', 'how', 'someone'}]
+    print(f"DEBUG: query='{query}' search_terms={search_terms}")
     
     scored_snippets = []
     for line in combined_kb:
@@ -145,10 +163,13 @@ def retrieve_rag_context(query: str):
             scored_snippets.append((score, line.strip()))
             
     scored_snippets.sort(key=lambda x: x[0], reverse=True)
+    print(f"DEBUG: found {len(scored_snippets)} snippets")
     if scored_snippets:
+        # Clean 'h' artifacts from snippets
+        clean_snippets = [s[1].replace('\th', '').replace('h ', '').strip() for s in scored_snippets[:3]]
         return {
             "keywords": [],
-            "protocols": {"English": "1. " + " ".join([s[1] for s in scored_snippets[:2]])},
+            "snippets": clean_snippets,
             "level": "URGENT LEVEL 3", "color": "#f59e0b", "isEmerg": False, 
             "sysText": "Analyzing Manuals...", "visual": "/img/generic.png"
         }
@@ -159,11 +180,19 @@ def retrieve_rag_context(query: str):
         "level": "CAUTION LEVEL 2", "color": "#3b82f6", "isEmerg": False, "sysText": "Analyzing Query...", "visual": "/img/generic.png"
     }
 
-def ask_medllama(query: str, context: str, target_lang: str = "English"):
-    if target_lang == "English": return context
-    prompt = f"""Task: Translate this medical protocol into {target_lang}.
+def ask_medllama(query: str, context: str, target_lang: str = "English", force_format: bool = False):
+    if target_lang == "English" and not force_format: return context
+    
+    if force_format:
+        prompt = f"""Task: Synthesize a first aid protocol for '{query}' using the provided context.
+Context: {context}
+Language: {target_lang}
+Format: ONLY output 3 numbered steps starting with '1. '. Be concise. No filler."""
+    else:
+        prompt = f"""Task: Translate this medical protocol into {target_lang}.
 Context: {context}
 Format: ONLY output 2-3 numbered steps starting with '1. '. No filler."""
+    
     payload = {"model": "llama3.1:latest", "prompt": prompt, "stream": False, "options": {"temperature": 0.1, "num_predict": 100}}
     try:
         res = requests.post("http://localhost:11434/api/generate", json=payload, timeout=60)
@@ -176,15 +205,17 @@ def triage_engine(query: QueryContext):
     context_data = retrieve_rag_context(query.text)
     
     # Check if we have a hardcoded translation for this language
-    # We strip whitespace to ensure matching
     lang_key = query.language.strip()
-    
-    if lang_key in context_data["protocols"]:
+    if "protocols" in context_data and lang_key in context_data["protocols"]:
         llm_output = context_data["protocols"][lang_key]
     else:
-        # Fallback to LLM translation if not hardcoded
-        base_context = context_data["protocols"].get("English")
-        llm_output = ask_medllama(query.text, base_context, lang_key)
+        # Fallback to LLM for formatting or translation
+        if "snippets" in context_data:
+            base_context = " ".join(context_data["snippets"])
+            llm_output = ask_medllama(query.text, base_context, lang_key, force_format=True)
+        else:
+            base_context = context_data["protocols"].get("English", "")
+            llm_output = ask_medllama(query.text, base_context, lang_key)
     
     return {
         "status": "success", "triage_level": context_data["level"], "color": context_data["color"],

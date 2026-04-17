@@ -10,6 +10,7 @@ const TRANSLATIONS = {
     testSnake: 'Snake',
     testHeart: 'Heart',
     testBurn: 'Burn',
+    testFracture: 'Fracture',
     awaiting: 'Medical AI is ready.\nAwaiting voice input...',
     systemReady: 'SYSTEM READY',
     connecting: 'Connecting to AI...',
@@ -26,6 +27,7 @@ const TRANSLATIONS = {
     testSnake: 'सांप',
     testHeart: 'दिल',
     testBurn: 'जलना',
+    testFracture: 'हड्डी टूटना',
     awaiting: 'मेडिकल AI तैयार है।\nआवाज इनपुट की प्रतीक्षा है...',
     systemReady: 'सिस्टम तैयार',
     connecting: 'AI से जुड़ रहा है...',
@@ -42,6 +44,7 @@ const TRANSLATIONS = {
     testSnake: 'साप',
     testHeart: 'हृदय',
     testBurn: 'भाजणे',
+    testFracture: 'हाड मोडणे',
     awaiting: 'वैद्यकीय AI तैयार आहे.\nआवाज इनपुटची प्रतीक्षा...',
     systemReady: 'सिस्टम तैयार',
     connecting: 'AI शी कनेक्ट होत आहे...',
@@ -58,6 +61,7 @@ const TRANSLATIONS = {
     testSnake: 'பாம்பு',
     testHeart: 'இதயம்',
     testBurn: 'தீக்காயம்',
+    testFracture: 'எலும்பு முறிவு',
     awaiting: 'மருத்துவ AI தயார்.\nகுरல் உள்ளீட்டிற்காக காத்திருக்கிறது...',
     systemReady: 'சிஸ்டம் தயார்',
     connecting: 'AI உடன் இணைக்கிறது...',
@@ -74,6 +78,7 @@ const TRANSLATIONS = {
     testSnake: 'పాము',
     testHeart: 'గుండె',
     testBurn: 'కాలుట',
+    testFracture: 'ఎముక విరుగుట',
     awaiting: 'మెడికల్ AI సిద్ధంగా ఉంది.\nవాయిస్ ఇన్‌పుట్ కోసం వేచి ఉంది...',
     systemReady: 'సిస్టమ్ సిద్ధం',
     connecting: 'AIకి కనెక్ట్ అవుతోంది...',
@@ -271,7 +276,7 @@ export default function App() {
 
           {/* Test Buttons - More Compact */}
           <div style={{ display: 'flex', gap: '6px', flexWrap: 'nowrap', overflowX: 'auto' }} className="no-scrollbar">
-            {['snake', 'heart', 'burn'].map(key => (
+            {['snake', 'heart', 'burn', 'fracture'].map(key => (
               <motion.button
                 key={key}
                 whileTap={{ scale: 0.94 }}

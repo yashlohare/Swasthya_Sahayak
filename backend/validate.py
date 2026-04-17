@@ -20,6 +20,7 @@ tests = [
     ('Telugu', '\u0c2a\u0c30\u0c40\u0c15\u0c4d\u0c37: \u0c2a\u0c3e\u0c2e\u0c41', 'snake'),
     ('Telugu', '\u0c2a\u0c30\u0c40\u0c15\u0c4d\u0c37: \u0c15\u0c3e\u0c32\u0c41\u0c1f', 'burn'),
     ('English', 'Test: Heart', 'heart'),
+    ('English', 'How to treat a head injury?', 'rag_test'),
 ]
 
 print('=== REGIONAL TRIAGE VALIDATION ===')
