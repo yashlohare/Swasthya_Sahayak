@@ -19,9 +19,8 @@ class QueryContext(BaseModel):
     text: str
     language: str = "en"
 
-# --- CORE VECTOR DB WITH HARDCODED REGIONAL TRANSLATIONS ---
-# These are the "Level 5" critical emergencies that MUST respond instantly in all languages.
-# Expanded keywords ensure that single words like "heart" or "snake" trigger perfectly.
+# --- FULL REGIONAL TRANSLATIONS DB ---
+# Added exhaustive support for Hindi, Marathi, Tamil, and Telugu for ALL categories.
 
 vector_db = {
     "heart": {
@@ -62,7 +61,9 @@ vector_db = {
         "protocols": {
             "English": "1. Think FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 108. 2. Keep the person calm. 3. Do not give food or drink.",
             "Hindi": "1. FAST याद रखें: चेहरा लटकना, हाथ की कमजोरी, बोलने में कठिनाई, 108 पर कॉल करने का समय। 2. व्यक्ति को शांत रखें। 3. कुछ भी खाने-पीने को न दें।",
-            "Marathi": "1. FAST लक्षात ठेवा: चेहरा वाकडा होणे, हाताचा कमकुवतपणा, बोलण्यात अडथळा, १०८ ला कॉल करण्याची वेळ. 2. व्यक्तीला शांत ठेवा. 3. खाण्यास किंवा पिण्यास काहीही देऊ नका।"
+            "Marathi": "1. FAST लक्षात ठेवा: चेहरा वाकडा होणे, हाताचा कमकुवतपणा, बोलण्यात अडथळा, १०८ ला कॉल करण्याची वेळ. 2. व्यक्तीला शांत ठेवा. 3. खाण्यास किंवा पिण्यास काहीही देऊ नका।",
+            "Tamil": "1. FAST ஐ நினையுங்கள்: முகம் கோணுதல், கை தளர்ச்சி, பேச்சுத் தடுமாற்றம், 108 ஐ அழைக்க வேண்டிய நேரம். 2. நபரை அமைதியாக வைத்திருக்கவும். 3. உணவு அல்லது পানীয় வழங்க வேண்டாம்.",
+            "Telugu": "1. FAST గుర్తుంచుకోండి: ముఖం వంకరపోవడం, చేయి బలహీనత, మాట తడబడటం, 108కి కాల్ చేయాల్సిన సమయం. 2. వ్యక్తిని ప్రశాంతంగా ఉంచండి. 3. ఆహారం లేదా పానీయం ఇవ్వవద్దు."
         },
         "level": "CRITICAL LEVEL 5", "color": "#ef4444", "isEmerg": True, "sysText": "Dispatching GPS...", "visual": "/img/stroke.png"
     },
@@ -71,7 +72,9 @@ vector_db = {
         "protocols": {
             "English": "1. Clear the area of hard or sharp objects. 2. Do not hold them down or put anything in their mouth. 3. Place them in the recovery position after the seizure stops.",
             "Hindi": "1. आस-पास से कठोर या नुकीली चीजें हटा दें। 2. उन्हें पकड़ें नहीं और मुंह में कुछ भी न डालें। 3. दौरा खत्म होने के बाद उन्हें करवट पर लिटाएं।",
-            "Marathi": "1. आजूबाजूच्या कडक किंवा अणकुचीदार वस्तू दूर करा. 2. त्यांना दाबून धरू नका किंवा तोंडात काहीही घालू नका. 3. फिट थांबल्यानंतर त्यांना एका कुशीवर वळवून झोपवा।"
+            "Marathi": "1. आजूबाजूच्या कडक किंवा अणकुचीदार वस्तू दूर करा. 2. त्यांना दाबून धरू नका किंवा तोंडात काहीही घालू नका. 3. फिट थांबल्यानंतर त्यांना एका कुशीवर वळवून झोपवा।",
+            "Tamil": "1. கடினமான அல்லது கூர்மையான பொருட்களை அப்புறப்படுத்துங்கள். 2. அவர்களை அழுத்திப் பிடிக்காதீர்கள் அல்லது வாயில் எதையும் வைக்காதீர்கள். 3. வலிப்பு நின்ற பிறகு அவர்களை ஒருக்களித்துப் படுக்க வைக்கவும்.",
+            "Telugu": "1. గట్టి లేదా పదునైన వస్తువులను చుట్టుపక్కల నుండి తొలగించండి. 2. వారిని గట్టిగా పట్టుకోవద్దు లేదా నోటిలో ఏమీ పెట్టవద్దు. 3. ఫిట్స్ ఆగిపోయిన తర్వాత వారిని ఒక పక్కకు తిప్పి పడుకోబెట్టండి."
         },
         "level": "CRITICAL LEVEL 5", "color": "#ef4444", "isEmerg": True, "sysText": "Monitoring Situation...", "visual": "/img/seizure.png"
     },
@@ -80,7 +83,9 @@ vector_db = {
         "protocols": {
             "English": "1. Do NOT induce vomiting. 2. Do not give food or drink. 3. Find the container and call 108 immediately.",
             "Hindi": "1. उल्टी न कराएं। 2. कुछ भी खाने-पीने को न दें। 3. जहर का डब्बा ढूंढें और तुरंत 108 पर कॉल करें।",
-            "Marathi": "1. उलट्या करण्याचा प्रयत्न करू नका. 2. खाण्यास किंवा पिण्यास काहीही देऊ नका. 3. विषाचा डबा शोधा आणि त्वरित १०८ ला कॉल करा।"
+            "Marathi": "1. उलट्या करण्याचा प्रयत्न करू नका. 2. खाण्यास किंवा पिण्यास काहीही देऊ नका. 3. विषाचा डबा शोधा आणि त्वरित १०८ ला कॉल करा।",
+            "Tamil": "1. வாந்தியைத் தூண்ட வேண்டாம். 2. உணவு அல்லது பானம் கொடுக்க வேண்டாம். 3. விஷம் இருந்த கொள்கலனைக் கண்டுபிடித்து உடனடியாக 108 ஐ அழைக்கவும்.",
+            "Telugu": "1. వాంతులు చేయించవద్దు. 2. ఆహారం లేదా పానీయం ఇవ్వవద్దు. 3. విషం ఉన్న డబ్బాను వెతికి వెంటనే 108కి కాల్ చేయండి."
         },
         "level": "CRITICAL LEVEL 5", "color": "#ef4444", "isEmerg": True, "sysText": "Dispatching GPS...", "visual": "/img/poison.png"
     },
@@ -89,7 +94,9 @@ vector_db = {
         "protocols": {
             "English": "1. Give 5 firm back blows. 2. Give 5 abdominal thrusts (Heimlich). 3. Repeat until the object is dislodged.",
             "Hindi": "1. पीठ पर 5 बार जोर से थपथपाएं। 2. पेट पर 5 बार दबाव डालें (हीमलिच)। 3. जब तक वस्तु बाहर न निकल जाए, तब तक दोहराएं।",
-            "Marathi": "1. पाठीवर ५ जोरात फटके द्या. 2. पोटावर ५ वेळा दाब द्या (Heimlich). 3. जोपर्यंत वस्तू बाहेर येत नाही तोपर्यंत पुन्हा करा।"
+            "Marathi": "1. पाठीवर ५ जोरात फटके द्या. 2. पोटावर ५ वेळा दाब द्या (Heimlich). 3. जोपर्यंत वस्तू बाहेर येत नाही तोपर्यंत पुन्हा करा।",
+            "Tamil": "1. முதுகில் 5 முறை பலமாகத் தட்டவும். 2. அடிவயிற்றில் 5 முறை அழுத்தம் கொடுக்கவும் (ஹெய்ம்லிச்). 3. பொருள் வெளியேறும் வரை மீண்டும் செய்யவும்.",
+            "Telugu": "1. వెనుక భాగంలో 5 సార్లు గట్టిగా కొట్టండి. 2. పొత్తికడుపుపై 5 సార్లు ఒత్తిడి ఇవ్వండి (హీమ్లిచ్). 3. అడ్డుపడిన వస్తువు బయటకు వచ్చే వరకు పునరావృతం చేయండి."
         },
         "level": "CRITICAL LEVEL 5", "color": "#ef4444", "isEmerg": True, "sysText": "Dispatching GPS...", "visual": "/img/choking.png"
     },
@@ -98,7 +105,9 @@ vector_db = {
         "protocols": {
             "English": "1. Apply direct, firm pressure with a clean cloth. 2. Do not remove the cloth if soaked; add more on top. 3. Call 108 if bleeding is severe.",
             "Hindi": "1. साफ कपड़े से घाव पर सीधा दबाव डालें। 2. यदि कपड़ा भीग जाए, तो उसे हटाएं नहीं; ऊपर से और कपड़ा रखें। 3. यदि खून ज्यादा बह रहा हो, तो 108 पर कॉल करें।",
-            "Marathi": "1. स्वच्छ कापडाने जखमेवर थेट आणि जोरात दाब द्या. 2. कापड रक्ताने भिजल्यास ते काढू नका; त्यावर दुसरे कापड ठेवा. 3. रक्तस्त्राव थांबत नसल्यास १०८ ला कॉल करा।"
+            "Marathi": "1. स्वच्छ कापडाने जखमेवर थेट आणि जोरात दाब द्या. 2. कापड रक्ताने भिजल्यास ते काढू नका; त्यावर दुसरे कापड ठेवा. 3. रक्तस्त्राव थांबत नसल्यास १०८ ला कॉल करा।",
+            "Tamil": "1. சுத்தமான துணியால் நேரடியாகவும் பலமாகவும் அழுத்தம் கொடுக்கவும். 2. துணி நனைந்துவிட்டால் அதை எடுக்க வேண்டாம்; அதன் மேல் இன்னும் துணிகளை வைக்கவும். 3. இரத்தப்போக்கு அதிகமாக இருந்தால் 108 ஐ அழைக்கவும்.",
+            "Telugu": "1. శుభ్రమైన గుడ్డతో నేరుగా, గట్టిగా ఒత్తిడిని కలిగించండి. 2. గుడ్డ పూర్తిగా తడిసిపోతే దాన్ని తొలగించవద్దు; దానిపై మరొక గుడ్డను ఉంచండి. 3. రక్తస్రావం ఎక్కువగా ఉంటే 108కి కాల్ చేయండి."
         },
         "level": "CRITICAL LEVEL 5", "color": "#ef4444", "isEmerg": True, "sysText": "Dispatching GPS...", "visual": "/img/bleeding.png"
     }
@@ -116,7 +125,6 @@ def retrieve_rag_context(query: str):
     best_match = None
     best_score = 0
     
-    # Check High-Fidelity Vector DB first
     for key, data in vector_db.items():
         score = sum(5 if kw in query else 0 for kw in data["keywords"])
         if score > best_score:
@@ -126,7 +134,6 @@ def retrieve_rag_context(query: str):
     if best_match and best_score >= 5:
         return best_match
 
-    # Search PDF fallback with strict keyword rules
     print(f"DEBUG: PDF searching for: '{query}'")
     combined_kb = "\n".join(pdf_knowledge.values()).split('\n')
     search_terms = [w for w in query.split() if len(w) > 3 and w not in {'what', 'should', 'doing', 'where', 'when', 'how', 'someone'}]
@@ -169,13 +176,16 @@ Format: ONLY output 2-3 numbered steps starting with '1. '. No filler."""
 def triage_engine(query: QueryContext):
     context_data = retrieve_rag_context(query.text)
     
-    # If we have a hardcoded translation for this language, use it INSTANTLY
-    if query.language in context_data["protocols"]:
-        llm_output = context_data["protocols"][query.language]
+    # Check if we have a hardcoded translation for this language
+    # We strip whitespace to ensure matching
+    lang_key = query.language.strip()
+    
+    if lang_key in context_data["protocols"]:
+        llm_output = context_data["protocols"][lang_key]
     else:
         # Fallback to LLM translation if not hardcoded
         base_context = context_data["protocols"].get("English")
-        llm_output = ask_medllama(query.text, base_context, query.language)
+        llm_output = ask_medllama(query.text, base_context, lang_key)
     
     return {
         "status": "success", "triage_level": context_data["level"], "color": context_data["color"],

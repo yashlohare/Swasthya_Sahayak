@@ -107,6 +107,10 @@ export default function App() {
     stopSpeech();
     window.addEventListener('beforeunload', stopSpeech);
 
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+    }
+
     if (appState === 'ready') setStatusText(t.statusReady);
 
     return () => window.removeEventListener('beforeunload', stopSpeech);
@@ -189,12 +193,39 @@ export default function App() {
         visual_path: data.visual_path
       }]);
 
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        let utterance = new SpeechSynthesisUtterance(rawResponse);
-        utterance.lang = selectedLanguage.code;
-        window.speechSynthesis.speak(utterance);
-      }
+      // Robust Cloud TTS - Bypasses local system limitations
+      const speakInstructions = (text, langCode) => {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        
+        let audioEl = document.getElementById('ss-audio-engine');
+        if (!audioEl) {
+          audioEl = document.createElement('audio');
+          audioEl.id = 'ss-audio-engine';
+          document.body.appendChild(audioEl);
+        }
+
+        const lang = langCode.split('-')[0];
+        const chunks = text.match(/.{1,180}(?:\s|$)/g) || [text];
+        let chunkIdx = 0;
+
+        const playChunk = () => {
+          if (chunkIdx >= chunks.length) return;
+          const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunks[chunkIdx])}&tl=${lang}&client=tw-ob`;
+          audioEl.src = url;
+          audioEl.onended = () => {
+            chunkIdx++;
+            playChunk();
+          };
+          audioEl.play().catch(() => {
+            let ut = new SpeechSynthesisUtterance(text);
+            ut.lang = langCode;
+            window.speechSynthesis.speak(ut);
+          });
+        };
+        playChunk();
+      };
+
+      speakInstructions(rawResponse, selectedLanguage.code);
     } catch (error) {
       setAppState('ready');
       setStatusText('Connection Failed');

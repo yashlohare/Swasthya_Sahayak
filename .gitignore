@@ -13,7 +13,6 @@ __pycache__/
 *.pyc
 venv/
 env/
-knowledge_base.json
 pdf\ for\ llm/
 scratch/
 systematic_testing_report.md
