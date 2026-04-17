@@ -134,7 +134,6 @@ def retrieve_rag_context(query: str):
     if best_match and best_score >= 5:
         return best_match
 
-    print(f"DEBUG: PDF searching for: '{query}'")
     combined_kb = "\n".join(pdf_knowledge.values()).split('\n')
     search_terms = [w for w in query.split() if len(w) > 3 and w not in {'what', 'should', 'doing', 'where', 'when', 'how', 'someone'}]
     
@@ -193,6 +192,36 @@ def triage_engine(query: QueryContext):
         "visual_path": context_data["visual"], "llm_response": llm_output
     }
 
+from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
+from starlette.responses import FileResponse
+
+@app.get("/api/tts")
+def tts_proxy(q: str, tl: str = "en"):
+    """Proxy Google TTS to bypass CORS restrictions in the browser."""
+    url = f"https://translate.google.com/translate_tts?ie=UTF-8&q={q}&tl={tl}&client=tw-ob"
+    headers = {"User-Agent": "Mozilla/5.0", "Referer": "https://translate.google.com/"}
+    try:
+        r = requests.get(url, headers=headers, timeout=10)
+        return Response(content=r.content, media_type="audio/mpeg")
+    except:
+        return Response(content=b"", media_type="audio/mpeg", status_code=500)
+
+# Serve the built React frontend
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.isdir(static_dir):
+    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+    app.mount("/img", StaticFiles(directory=os.path.join(static_dir, "img")), name="img")
+    app.mount("/HUD", StaticFiles(directory=os.path.join(static_dir, "HUD")), name="HUD")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        file_path = os.path.join(static_dir, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(static_dir, "index.html"))
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+

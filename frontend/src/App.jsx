@@ -162,7 +162,7 @@ export default function App() {
     setAppState('processing');
     try {
       setStatusText(t.loading);
-      const response = await fetch('http://127.0.0.1:8000/api/triage', {
+      const response = await fetch('/api/triage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: userText, language: selectedLanguage.name })
@@ -210,7 +210,7 @@ export default function App() {
 
         const playChunk = () => {
           if (chunkIdx >= chunks.length) return;
-          const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunks[chunkIdx])}&tl=${lang}&client=tw-ob`;
+          const url = `/api/tts?q=${encodeURIComponent(chunks[chunkIdx])}&tl=${lang}`;
           audioEl.src = url;
           audioEl.onended = () => {
             chunkIdx++;
